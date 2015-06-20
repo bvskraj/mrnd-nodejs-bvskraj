@@ -3,7 +3,7 @@ describe("Contacts Test Suite", function(){
 
 	//var request = require('request');
 	var request = require('C:/Program Files/nodejs/node_modules/npm/node_modules/request')
-	var base_url = "http://mycontactsvc.com:3000";
+	var base_url = "http://localhost:3000";
 	var contacts_url = base_url + "/contacts";
 
 	describe("hello world", function(){
@@ -42,7 +42,7 @@ describe("Contacts Test Suite", function(){
 							expect(response.statusCode).toBe(200);
 							console.log(body);
 							idCreated = body;
-							done();
+							done()
 					    });
 		});
 
@@ -83,19 +83,42 @@ describe("Contacts Test Suite", function(){
 	//TODO: Fill out the test case below that posts a message to a contact
 	// and retrieves it back.
 	describe("post and get message to contact", function(){
-
-		it("should post message to contact", function(done){
+		var msg_id;
+		var	cid = '0';
+		var contact_url = "http://localhost:3000/contacts/"
+		xit("should post message to contact", function(done){
+			var cmessage = new Object();
+			cmessage.msg = "hello sir";
+		    console.log(JSON.stringify(cmessage));
 			//TODO: Write your test case here.
-			done();
+			request.post({url: contact_url+cid+'/message',
+		    			  body: cmessage,
+		    			  json: true
+		    			}, 
+		    			function(error, response, body){
+		    				expect(response.statusCode).toBe(200);
+							//console.log(body);
+							msg_id = body;
+		    				done();
+		    			});
 
 		});
 
-		it("should get message for contact", function(done){
-			//TODO: Write your test case here.
-			done();
+		xit("should get message for contact", function(done){
 
+			request.get({
+							url: contact_url+cid+ '/message/' + msg_id,
+							json: true
+						},
+		    		    function(error, response, body){
+							console.log(body);
+							expect(response.statusCode).toBe(200);
+							expect(body.cmessage.msg).toBe("hello sir");
+							done();
+					    });
 		});
-
 	});
 
 });
+
+
